@@ -74,6 +74,8 @@ wire [7:0] ram_data_out;
 
 assign ram_read = cpu_read | ppu_cpu_address_en;
 assign ram_address = ppu_cpu_address_en ? ppu_cpu_address : cpu_address;
+//assign ram_address = cpu_address; //DEBUG
+
 
 // PPU
 wire ppu_read;
@@ -136,7 +138,7 @@ vga nes_vga(.vga_clk_in(vga_clk), .write_clk_in(ppu_clk), .write_in(ppu_raster_w
 vram_controller nes_vram_controller(.vram_clk_in(ppu_clk), .vram_enable_in(cart_vram_enable), .vram_read_in(ppu_read), .vram_write_in(ppu_write), .cart_address_in(cart_address), .vram_address_in(ppu_address[9:0]), .vram_data_in(ppu_data_out), .vram_data_out(vram_data_out));
 apu nes_apu(.cpu_clk_in(cpu_clk), .aud_clk_in(aud_clk), .cpu_read_in(cpu_read), .cpu_write_in(cpu_write), .cpu_address_in(cpu_address), .cpu_data_in(cpu_data_out), .i2c_data_io(i2c_data_io), .i2c_clk_out(i2c_clk_out), .aud_chip_clk_out(aud_chip_clk_out), .aud_bit_clk_out(aud_bit_clk_out), .aud_channel_out(aud_channel_out), .aud_data_out(aud_data_out), .apu_irq_out(apu_irq), .cpu_data_en_out(apu_cpu_data_en), .cpu_data_out(apu_cpu_data_out));
 joy nes_joy(.cpu_clk_in(cpu_clk), .cpu_read_in(cpu_read), .cpu_write_in(cpu_write), .cpu_address_in(cpu_address), .cpu_data_in(cpu_data_out), .joystick_in(joystick_io[5:0]), .buttons_in(buttons_in), .cpu_data_en_out(joy_cpu_data_en), .cpu_data_out(joy_cpu_data_out));
-mapper_nrom nes_mapper_nrom(.cart_clk_in(ppu_clk), .prg_read_in(cpu_read), .prg_write_in(cpu_write), .chr_read_in(ppu_read), .chr_write_in(ppu_write), .prg_address_in(cpu_address), .prg_data_in(cpu_data_out), .chr_address_in(ppu_address), .chr_data_in(ppu_data_out), .prg_data_en_out(cart_prg_data_en), .chr_data_en_out(cart_chr_data_en), .vram_enable_out(cart_vram_enable), .cart_address_out(cart_address), .prg_data_out(cart_prg_data_out), .chr_data_out(cart_chr_data_out));
+mapper001 nes_mapper(.cart_clk_in(ppu_clk), .cpu_clk_in(cpu_clk), .prg_read_in(cpu_read), .prg_write_in(cpu_write), .chr_read_in(ppu_read), .chr_write_in(ppu_write), .prg_address_in(cpu_address), .prg_data_in(cpu_data_out), .chr_address_in(ppu_address), .chr_data_in(ppu_data_out), .prg_data_en_out(cart_prg_data_en), .chr_data_en_out(cart_chr_data_en), .vram_enable_out(cart_vram_enable), .cart_address_out(cart_address), .prg_data_out(cart_prg_data_out), .chr_data_out(cart_chr_data_out)); //, .switches_in(switches_in), .debug_out(debug_module));
 
 pll0 nes_pll0(.refclk(clk_50_in), .rst(0), .outclk_0(master_clk));
 pll1 nes_pll1(.refclk(master_clk), .rst(0), .outclk_0(ppu_clk), .outclk_1(cpu_clk));

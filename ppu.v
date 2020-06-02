@@ -790,7 +790,7 @@ task init_output;
 		ppu_read_out <= 0;
 		ppu_write_out <= 0;
 		ppu_address_out <= 0;
-		ppu_data_out <= 0;
+		//ppu_data_out <= 0;
 		ppu_raster_write_out <= 0;
 		ppu_raster_data_out <= 0;
 
